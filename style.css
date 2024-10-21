@@ -10,6 +10,7 @@ body {
   padding: 0;
   background-color: #264a00;
   color: #7fb900;
+  overflow: hidden;
 }
 
 header {
@@ -58,16 +59,11 @@ label {
 input, textarea {
   padding: 10px;
   margin-top: 5px;
-  border: 1px solid #41a353;
+  border: 1px solid #009325;
   border-radius: 4px;
   background-color: #007638;
   caret-color: #b2ff80;
-  colour: #d3ff9a;
-  transition: all 0.3s ease-in-out;
-}
-
-input:focus {
-  border: 2px solid #42f59e;
+  color: grey;
 }
 
 button {
@@ -83,6 +79,7 @@ button {
 
 button:hover {
   background-color: #45a049;
+  transform: scale(1.1);
 }
 
 #status {
@@ -96,3 +93,64 @@ button:hover {
     background-color: #193900;
     z-index: -1; /* Make sure it’s behind all the other elements */
 }
+
+#top {
+  animation: animateTop 3.5s ease;
+}
+#bottom {
+  animation: animateBottom 3.5s ease;
+}
+.notyet {
+  animation: animateNotyet 2s ease-in-out;
+  animation-delay: .3s;
+}
+
+/*@keyframes animateLoading {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}*/
+@keyframes animateNotyet {
+  40% {
+    left: 40%;
+  }
+  
+  100% {
+    left: 150%;
+  }
+}
+@keyframes animateTick {
+  0% {
+    display: block;
+  }
+  50% {
+    display: none;
+  }
+}
+
+@keyframes animateTop {
+  50% {
+    top: 0;
+  }
+  100% {
+    top: -50%;
+  }
+}
+
+@keyframes animateBottom {
+  50% {
+    top:50%;  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* ... your existing CSS ... */
+
+.hidden {
+  display: none;
+}
+
