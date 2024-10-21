@@ -1,6 +1,4 @@
-document.querySelectorAll('a').forEach(link => {
-  link.setAttribute('target', '_blank');
-});
+
 
 anime({
     targets: 'h1, h2',
@@ -103,3 +101,6 @@ setTimeout(function() {
     top.classList.add('hidden');
     bottom.classList.add('hidden');
 }, 3300);
+document.querySelectorAll('a').forEach(link => {
+  link.setAttribute('target', '_blank');
+});
