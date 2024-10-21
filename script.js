@@ -7,16 +7,16 @@ anime({
     targets: 'h1, h2',
     translateY: [-50, 0],
     opacity: [0, 1],
-    duration: 1000,
+    duration: 3000,
     easing: 'easeOutExpo',
-    delay: anime.stagger(200)  // Delays each text element
+    delay: anime.stagger(600)  // Delays each text element
 });
 document.querySelectorAll('button').forEach(button => {
     button.addEventListener('mouseover', () => {
         anime({
             targets: button,
             scale: 1.2,
-            duration: 500,
+            duration: 1500,
             easing: 'easeInOutQuad'
         });
     });
@@ -25,7 +25,7 @@ document.querySelectorAll('button').forEach(button => {
         anime({
             targets: button,
             scale: 1,
-            duration: 500,
+            duration: 1500,
             easing: 'easeInOutQuad'
         });
     });
@@ -72,6 +72,6 @@ anime({
     targets: 'section',
     opacity: [0, 1],
     translateY: [20, 0],
-    delay: anime.stagger(200),
+    delay: anime.stagger(600),
     easing: 'easeOutQuad'
 });
