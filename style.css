@@ -63,6 +63,7 @@ input, textarea {
   background-color: #007638;
   caret-color: #b2ff80;
   colour: #d3ff9a;
+  transition: all 0.3s ease-in-out;
 }
 
 input:focus {
