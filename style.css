@@ -58,11 +58,15 @@ label {
 input, textarea {
   padding: 10px;
   margin-top: 5px;
-  border: 1px solid #42f59e;
+  border: 1px solid #41a353;
   border-radius: 4px;
   background-color: #007638;
   caret-color: #b2ff80;
   colour: #d3ff9a;
+}
+
+input:focus {
+  border: 2px dashed #42f59e;
 }
 
 button {
