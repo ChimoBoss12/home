@@ -1,3 +1,7 @@
+document.querySelectorAll('a').forEach(link => {
+  link.setAttribute('target', '_blank');
+});
+
 anime({
     targets: 'h1, h2',
     translateY: [-50, 0],
