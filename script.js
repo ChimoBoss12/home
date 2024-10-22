@@ -100,10 +100,8 @@ setTimeout(function() {
     notyetElement.classList.add('hidden');
     top.classList.add('hidden');
     bottom.classList.add('hidden');
+    canScroll = true;
 }, 3300);
-document.querySelectorAll('a').forEach(link => {
-  link.setAttribute('target', '_blank');
-});
 
 window.onload = preventScroll();
     
