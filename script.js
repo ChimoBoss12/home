@@ -1,4 +1,4 @@
-window.scrollTo(0,0);
+let canScroll = false;
 
 anime({
     targets: 'h1, h2',
@@ -105,4 +105,16 @@ document.querySelectorAll('a').forEach(link => {
   link.setAttribute('target', '_blank');
 });
 
-setTimeout(function(){window.scrollTo(0,0);},1000);
+window.onload = preventScroll();
+    
+function preventScroll() {
+    if (canScroll) {
+        clearInterval(interval);
+    }
+  window.scrollTo(0, 0);
+  window.addEventListener('scroll', function(e) {
+    e.preventDefault(); 
+  }, { passive: false });
+};
+
+let interval = setInterval(preventScroll, 1);
