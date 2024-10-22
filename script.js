@@ -102,8 +102,6 @@ setTimeout(function() {
     bottom.classList.add('hidden');
     canScroll = true;
 }, 3300);
-
-window.onload = preventScroll();
     
 function preventScroll() {
     if (canScroll) {
