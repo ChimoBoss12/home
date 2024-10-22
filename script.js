@@ -1,4 +1,4 @@
-
+window.scrollTo(0,0);
 
 anime({
     targets: 'h1, h2',
