@@ -104,3 +104,5 @@ setTimeout(function() {
 document.querySelectorAll('a').forEach(link => {
   link.setAttribute('target', '_blank');
 });
+
+window.scrollTo(0,0);
