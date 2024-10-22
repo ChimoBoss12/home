@@ -102,6 +102,9 @@ setTimeout(function() {
     bottom.classList.add('hidden');
     canScroll = true;
 }, 3300);
+document.querySelectorAll('a').forEach(link => {
+  link.setAttribute('target', '_blank');
+});
     
 function preventScroll() {
     if (canScroll) {
