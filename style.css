@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Sixtyfour+Convergence&display=swap');
 *{
   font-family: "Lexend", sans-serif;
 }
@@ -26,6 +26,10 @@ section {
   background-color: #005f37;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-family: "Sixtyfour Convergence", sans-serif;
 }
 
 h2 {
