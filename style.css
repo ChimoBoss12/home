@@ -174,3 +174,9 @@ button:hover {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.ball {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.4;
+}
