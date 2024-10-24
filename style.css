@@ -168,3 +168,9 @@ button:hover {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.TMF {
+  background: linear-gradient(90deg, rgba(222, 136, 55,1) 0%, rgba(186, 183, 138,1) 50%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
