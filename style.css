@@ -159,7 +159,7 @@ button:hover {
 }
 
 .darkvlight {
-  background: linear-gradient(#eee, #333);
+  background: linear-gradient(#fff, #000);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
