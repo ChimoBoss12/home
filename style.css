@@ -159,7 +159,7 @@ button:hover {
 }
 
 .darkvlight {
-  background: linear-gradient(90deg, rgba(43,37,31,1) 0%, rgba(250,232,219,1) 100%);;
+  background: linear-gradient(90deg, rgba(43,37,31,1) 0%, rgba(250,232,219,1) 50%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
