@@ -37,6 +37,9 @@ h2 {
   padding-bottom: 10px;
 }
 
+h3 {
+  font-family: "Sixtyfour Convergence", sans-serif;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -158,3 +161,8 @@ button:hover {
   display: none;
 }
 
+.darkvlight {
+  background: linear-gradient(#eee, #333);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
