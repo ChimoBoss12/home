@@ -162,5 +162,5 @@ button:hover {
   background: linear-gradient(90deg, rgba(43,37,31,1) 0%, rgba(250,232,219,1) 50%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  border-bottom: 1px solid linear-gradient(90deg, rgba(43,37,31,1) 0%, rgba(250,232,219,1) 50%);
+  border-bottom: 1px solid black;
 }
