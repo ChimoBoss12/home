@@ -147,7 +147,7 @@ for (let q = 0; q < document.querySelectorAll('section').length; q++) {
 balls.forEach((el, i, ra) => {
       let to = {
         x: Math.random() * (i % 2 === 0 ? -11 : 11),
-        y: Math.random() * 25
+        y: Math.random() * 6
       };
         let anim = el.animate(
             [
