@@ -3,16 +3,12 @@
 *{
   font-family: "Lexend", sans-serif;
 }
-
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
 body {
   margin: 0;
   padding: 0;
   background-color: #264a00;
   color: #7fb900;
+  max-width: 100%;
   overflow: hidden;
 }
 
