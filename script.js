@@ -128,7 +128,11 @@ for (let q = 0; q < document.querySelectorAll('section').length; q++) {
     for (let i = 0; i < numBalls; i++) {
       let ball = document.createElement("div");
       ball.classList.add("ball");
-      ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+        if (Math.random() < 0.3) {
+            ball.style.border = `1px solid ${colors[Math.floor(Math.random() * colors.length)]}`;
+        } else {
+            ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
       ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
       ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
       ball.style.transform = `scale(${Math.random()})`;
