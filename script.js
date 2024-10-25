@@ -120,7 +120,7 @@ let interval = setInterval(preventScroll, 1);
 
 const balls = [];
 for (let q = 0; q < document.querySelectorAll('section').length; q++) {
-    const colors = ["#47753f", "#8feb34", "#34eb5e", "#2a4f2a", "#75ba75"];
+    const colors = ["#67ed07", "#99ed5c", "#c6f5a4", "#3e9103", "#64993f", "#6d875b" , "#1a3d01", "#2e451e", "#374030"];
 
     const numBalls = 75;
     
