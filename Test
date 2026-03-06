@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChimbroDaPro — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'JetBrains Mono', monospace; background: #0a0a0f; color: #e0e0e0; overflow-x: hidden; }
+
+
+/* INTRO */
+#intro { position:fixed; inset:0; width:100vw; height:100vh; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; display: flex;
+  justify-content: center;
+  align-items: center; left: 10px;}
+#matrix-canvas { position:absolute; inset:0; width: 100%; height: 100%;}
+#terminal-boot {
+  position:relative; z-index:2;
+  background:rgba(0,0,0,0.88); border:1px solid #00ff88; border-radius:6px;
+  padding:1.75rem 2.25rem; width:min(540px,90vw);
+  font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#00ff88;
+  box-shadow:0 0 60px rgba(0,255,136,0.15),0 0 120px rgba(0,255,136,0.06);
+  opacity:0; transition:opacity 0.5s; 
+}
+.tb-bar { display:flex; align-items:center; gap:0.5rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid rgba(0,255,136,0.2); }
+.tb-dot { width:10px; height:10px; border-radius:50%; }
+.tb-dot.r{background:#ff5f57} .tb-dot.y{background:#ffbd2e} .tb-dot.g{background:#28c840}
+.tb-title { flex:1; text-align:center; font-size:0.65rem; color:rgba(0,255,136,0.4); letter-spacing:0.05em; }
+#boot-lines { min-height:220px; }
+.boot-line { line-height:1.9; opacity:0; transform:translateX(-6px); transition:opacity 0.25s,transform 0.25s; }
+.boot-line.show { opacity:1; transform:none; }
+.boot-line .dim{color:rgba(0,255,136,0.38)} .boot-line .bright{color:#fff}
+.boot-line .warn{color:#ffbd2e} .boot-line .ok{color:#28c840}
+.boot-line .grant{color:#fff;font-size:1.05em;letter-spacing:0.12em;text-shadow:0 0 20px rgba(0,255,136,0.8)}
+#intro.bye { animation:byeIntro 1s forwards; }
+@keyframes byeIntro { to{opacity:0;pointer-events:none} }
+@keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+.cur { display:inline-block; width:7px; height:0.9em; background:#00ff88; vertical-align:middle; margin-left:2px; animation:cur 1s step-end infinite; }
+
+/* NAV */
+nav { position:fixed; top:1.1rem; right:1.5rem; z-index:200; display:flex; gap:0.75rem; opacity:0; transition:opacity 0.6s; }
+nav.show { opacity:1; }
+nav a { font-size:0.65rem; letter-spacing:0.08em; color:rgba(255,255,255,0.4); text-decoration:none; padding:0.3rem 0.7rem; border:1px solid rgba(255,255,255,0.12); border-radius:3px; transition:all 0.25s; }
+nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.04); }
+
+/* SIDE DOTS */
+.sidenav { position:fixed; left:1.5rem; top:50%; transform:translateY(-50%); z-index:200; display:flex; flex-direction:column; gap:0.6rem; opacity:0; transition:opacity 0.6s; }
+.sidenav.show { opacity:1; }
+.sn-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.2); cursor:pointer; transition:all 0.3s; }
+.sn-dot.on { background:#fff; transform:scale(1.5); }
+
+/* HERO */
+#hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; background:#070710; }
+#hero-canvas { position:absolute; inset:0; opacity:0.45; }
+.hero-inner { position:relative; z-index:2; text-align:center; padding:2rem; }
+.hero-tag { font-size:0.62rem; letter-spacing:0.32em; color:#00ff88; margin-bottom:1.2rem; opacity:0; animation:fadeUp 0.9s 0.5s forwards; }
+.hero-name { font-size:clamp(2.8rem,9vw,6.5rem); font-weight:700; line-height:0.95; color:#fff; margin-bottom:1.2rem; opacity:0; animation:fadeUp 0.9s 0.7s forwards; }
+.hero-name .g { color:#00ff88; }
+.hero-sub { font-size:0.82rem; color:rgba(255,255,255,0.32); letter-spacing:0.05em; margin-bottom:2.5rem; opacity:0; animation:fadeUp 0.9s 0.9s forwards; }
+.hero-cta { display:inline-block; font-size:0.65rem; letter-spacing:0.22em; color:rgba(255,255,255,0.35); text-decoration:none; border:1px solid rgba(255,255,255,0.12); padding:0.55rem 1.6rem; border-radius:3px; transition:all 0.3s; opacity:0; animation:fadeUp 0.9s 1.1s forwards; }
+.hero-cta:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.04); }
+.scroll-hint { position:absolute; bottom:1.75rem; left:50%; transform:translateX(-50%); font-size:0.6rem; letter-spacing:0.25em; color:rgba(255,255,255,0.2); animation:bob 2.2s ease-in-out infinite; }
+@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+
+/* SECTION BASE */
+section { min-height:100vh; padding:6rem 2rem 5rem; position:relative; }
+.sec-label { font-size:0.6rem; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:2.5rem; opacity:0.45; }
+
+/* WAVE */
+.wave-divider { position:absolute; bottom:-1px; left:0; width:100%; overflow:hidden; line-height:0; z-index:3; }
+.wave-divider svg { display:block; width:100%; }
+
+/* WEBSITES */
+#websites { background:#0d1117; overflow:hidden; }
+#websites::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px); pointer-events:none; z-index:1; }
+#ws-inner { max-width:860px; margin:0 auto; position:relative; z-index:2; }
+#websites .sec-label { color:#39d353; }
+#websites h2 { font-size:clamp(1.6rem,4.5vw,2.8rem); color:#39d353; margin-bottom:0.4rem; text-shadow:0 0 30px rgba(57,211,83,0.3); }
+.ws-prompt { font-size:0.72rem; color:rgba(57,211,83,0.4); margin-bottom:2.5rem; }
+.lw { background:#161b22; border:1px solid rgba(57,211,83,0.18); border-radius:8px; overflow:hidden; box-shadow:0 6px 30px rgba(0,0,0,0.5); opacity:0; transform:translateY(16px); transition:opacity 0.6s,transform 0.6s; }
+.lw.show { opacity:1; transform:none; }
+.lw-bar { background:#21262d; padding:0.55rem 0.9rem; display:flex; align-items:center; gap:0.45rem; border-bottom:1px solid rgba(57,211,83,0.1); }
+.lw-d { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.lw-d.r{background:#ff5f57} .lw-d.y{background:#ffbd2e} .lw-d.g{background:#28c840}
+.lw-name { font-size:0.6rem; color:rgba(57,211,83,0.4); margin-left:0.5rem; letter-spacing:0.04em; }
+.lw-body { padding:1.1rem 1.3rem 1.3rem; font-size:0.78rem; color:#c9d1d9; line-height:2.1; }
+.ws-link { display:block; color:#39d353; text-decoration:none; transition:color 0.2s,padding-left 0.25s; opacity:0; }
+.ws-link::before { content:'$ open '; color:rgba(57,211,83,0.35); }
+.ws-link:hover { color:#7ee787; padding-left:0.6rem; }
+.ws-link.typed { opacity:1; }
+
+/* GAMES */
+#games { background:#0f0520; overflow:hidden; }
+#games-blobs { position:absolute; inset:0; pointer-events:none; }
+.blob { position:absolute; border-radius:50%; filter:blur(90px); opacity:0.12; }
+@keyframes blobPulse { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(25px,-18px) scale(1.06)} 66%{transform:translate(-15px,12px) scale(0.94)} }
+#games-inner { max-width:1050px; margin:0 auto; position:relative; z-index:2; }
+#games .sec-label { color:#ff6ac1; }
+#games h2 { font-family:'Press Start 2P',monospace; font-size:clamp(0.9rem,2.5vw,1.6rem); color:#fff; margin-bottom:0.5rem; line-height:1.5; text-shadow:0 0 30px rgba(255,106,193,0.4); }
+#games .g-sub { font-size:0.72rem; color:rgba(255,255,255,0.3); margin-bottom:3rem; }
+.games-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.2rem; }
+.cb { background:rgba(26,10,46,0.8); border:1px solid rgba(255,255,255,0.07); border-radius:10px; overflow:hidden; transition:transform 0.3s,box-shadow 0.3s; opacity:0; transform:translateY(28px) scale(0.97); }
+.cb.show { opacity:1; transform:none; }
+.cb:hover { transform:translateY(-5px); box-shadow:0 16px 50px rgba(255,106,193,0.12); }
+.cb-bar { padding:0.55rem 0.9rem; display:flex; align-items:center; gap:0.4rem; border-bottom:1px solid rgba(255,255,255,0.05); }
+.cb-dots { display:flex; gap:0.3rem; }
+.cb-dot { width:8px; height:8px; border-radius:50%; }
+.cb-file { margin-left:auto; font-size:0.6rem; color:rgba(255,255,255,0.25); }
+.cb-code { padding:1rem 1.1rem; font-size:0.7rem; line-height:1.75; font-family:'JetBrains Mono',monospace; }
+.kw{color:#ff6ac1} .fn{color:#82aaff} .str{color:#c3e88d} .num{color:#f78c6c}
+.cmt{color:rgba(255,255,255,0.28);font-style:italic} .prop{color:#89ddff} .op{color:rgba(255,255,255,0.45)}
+.cb-code a { color:#c3e88d; text-decoration:none; transition:color 0.2s; }
+.cb-code a:hover { color:#fff; }
+.cb-img { margin:0.4rem 1rem 1rem; height:110px; border:1px dashed rgba(255,255,255,0.08); border-radius:6px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.18); font-size:0.6rem; letter-spacing:0.1em; }
+
+/* PUBLICATIONS */
+#publications { background:#ede0c0; overflow:hidden; }
+#publications::before { content:''; position:absolute; inset:0; opacity:0.35; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E"); pointer-events:none; }
+#publications::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center,transparent 40%,rgba(139,100,40,0.12) 100%); pointer-events:none; }
+#pub-inner { max-width:780px; margin:0 auto; position:relative; z-index:2; }
+#publications .sec-label { color:#7a4a20; opacity:0.6; }
+#publications h2 { font-family:'Spectral',serif; font-size:clamp(2.2rem,5.5vw,3.8rem); font-weight:300; font-style:italic; color:#2c1810; margin-bottom:0.5rem; }
+.pub-intro { font-family:'Spectral',serif; font-style:italic; color:rgba(44,24,16,0.6); font-size:0.95rem; margin-bottom:3rem; }
+.pub-card { background:#fdf6e3; border:1px solid rgba(139,69,19,0.18); border-radius:3px; padding:2rem 2.5rem; margin-bottom:1.5rem; box-shadow:3px 5px 0 rgba(139,69,19,0.08),0 10px 40px rgba(0,0,0,0.06); opacity:0; transform:translateY(18px); transition:opacity 0.6s,transform 0.6s; }
+.pub-card.show { opacity:1; transform:none; }
+.pub-type { font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:0.22em; color:#8b4513; text-transform:uppercase; margin-bottom:0.7rem; }
+.pub-title { font-family:'Spectral',serif; font-size:1.45rem; font-weight:600; color:#2c1810; margin-bottom:1rem; line-height:1.3; }
+.pub-link { font-family:'Spectral',serif; font-style:italic; color:#8b4513; font-size:0.9rem; text-decoration:none; border-bottom:1px solid rgba(139,69,19,0.3); transition:border-color 0.2s; }
+.pub-link:hover { border-color:#8b4513; }
+.pub-coming { opacity:0.55 !important; border-style:dashed !important; }
+
+/* CONTACT */
+#contact { background:#07070f; }
+#contact-inner { max-width:580px; margin:0 auto; }
+#contact .sec-label { color:#00ff88; }
+#contact h2 { font-size:clamp(1.4rem,3.5vw,2rem); color:#fff; margin-bottom:0.4rem; }
+#contact .c-sub { font-size:0.72rem; color:rgba(255,255,255,0.3); margin-bottom:2.5rem; }
+.field { margin-bottom:1.2rem; }
+.field label { display:block; font-size:0.6rem; letter-spacing:0.18em; color:rgba(255,255,255,0.35); margin-bottom:0.4rem; }
+.field input, .field textarea { width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.09); border-radius:4px; padding:0.7rem 1rem; color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.8rem; outline:none; transition:border-color 0.3s; }
+.field input:focus, .field textarea:focus { border-color:rgba(0,255,136,0.45); }
+.field textarea { height:130px; resize:vertical; }
+.send-btn { background:transparent; border:1px solid #00ff88; color:#00ff88; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.18em; padding:0.7rem 2rem; cursor:pointer; border-radius:4px; transition:all 0.3s; }
+.send-btn:hover { background:#00ff88; color:#000; }
+
+footer { background:#07070f; text-align:center; padding:2rem; font-size:0.6rem; color:rgba(255,255,255,0.15); letter-spacing:0.1em; }
+```
+
+  </style>
+</head>
+<body>
+
+  <div id="intro">
+    <canvas id="matrix-canvas"></canvas> 
+    <div id="terminal-boot">
+      <div class="tb-bar">
+        <div class="tb-dot r"></div>
+        <div class="tb-dot y"></div>
+        <div class="tb-dot g"></div>
+        <div class="tb-title">chimoboss@home — bash — 80×24</div>
+      </div>
+      <div id="boot-lines"></div>
+    </div>
+  </div>
+
+  <nav id="main-nav">
+    <a href="#websites">./websites</a>
+    <a href="#games">./games</a>
+    <a href="#publications">./publications</a>
+    <a href="#contact">./contact</a>
+  </nav>
+
+  <div class="sidenav" id="sidenav">
+    <div class="sn-dot on" data-s="hero"></div>
+    <div class="sn-dot" data-s="websites"></div>
+    <div class="sn-dot" data-s="games"></div>
+    <div class="sn-dot" data-s="publications"></div>
+    <div class="sn-dot" data-s="contact"></div>
+  </div>
+
+  <!-- HERO -->
+
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-inner">
+      <div class="hero-tag">// welcome to my home page</div>
+      <h1 class="hero-name">Chimbro<span class="g">DaPro</span></h1>
+      <p class="hero-sub">game dev &nbsp;·&nbsp; web dev &nbsp;·&nbsp; writer &nbsp;·&nbsp; poet</p>
+      <a href="#websites" class="hero-cta">CHECK IT OUT↓</a>
+    </div>
+    <div class="scroll-hint">so uh u can scroll now ↓</div>
+  </section>
+
+  <!-- WEBSITES -->
+
+  <section id="websites">
+    <div id="ws-inner">
+      <div class="sec-label">01 / websites</div>
+      <h2>> My Websites_</h2>
+      <p class="ws-prompt">user@chimoboss:~/projects$ ls -la ./websites</p>
+      <div class="lw" id="lw-main">
+        <div class="lw-bar">
+          <div class="lw-d r"></div><div class="lw-d y"></div><div class="lw-d g"></div>
+          <div class="lw-name">~/projects/websites — fish</div>
+        </div>
+        <div class="lw-body" id="lw-body"></div>
+      </div>
+    </div>
+    <div class="wave-divider">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#0f0520"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+
+  <section id="games">
+    <div id="games-blobs">
+      <div class="blob" style="width:450px;height:450px;background:#ff6ac1;top:5%;left:2%;animation:blobPulse 14s ease-in-out infinite;"></div>
+      <div class="blob" style="width:350px;height:350px;background:#82aaff;top:55%;left:62%;animation:blobPulse 19s ease-in-out infinite reverse;"></div>
+      <div class="blob" style="width:280px;height:280px;background:#c3e88d;top:75%;left:15%;animation:blobPulse 17s ease-in-out infinite 2s;"></div>
+      <div class="blob" style="width:380px;height:380px;background:#f78c6c;top:15%;left:72%;animation:blobPulse 21s ease-in-out infinite 4s;"></div>
+    </div>
+    <div id="games-inner">
+      <div class="sec-label">02 / games</div>
+      <h2>My Games</h2>
+      <p class="g-sub">// MakeCode Arcade · browser-playable · click any code to play</p>
+      <div class="games-grid">
+
+
+    <div class="cb" id="cb0">
+      <div class="cb-bar" style="background:rgba(255,106,193,0.08);">
+        <div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div>
+        <div class="cb-file">standalone.js</div>
+      </div>
+      <div class="cb-code">
+
+
+<span class="kw">const</span> <span class="fn">standaloneGames</span> <span class="op">=</span> [<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_3feb3DdatV4X" target="_blank"><span class="str">“Skeleton Scramble”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_1V0Ywy0CdLfg" target="_blank"><span class="str">“Recreation”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_gRka99djvX1F" target="_blank"><span class="str">“Sea Salt Ice Cream”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_0WsVkE3PqR6U" target="_blank"><span class="str">“Path of Pain”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_fDWP1s4kEC8T" target="_blank"><span class="str">“Sickle Cell Awareness”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_9gKUhaHP3Wid" target="_blank"><span class="str">“DVD Screensaver”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_6iKCHiAqv00P" target="_blank"><span class="str">“Get Well Soon”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_36chFUaaYgrY" target="_blank"><span class="str">“Dinosaur Trials”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_EvMKCbPwaetA" target="_blank"><span class="str">“Reaper Race”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_KwxK36aKx818" target="_blank"><span class="str">“KH: Chronoversial Conflict”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_gKtejJ0bKedh" target="_blank"><span class="str">“Deleterious Decay”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_iPqT0MVbyE2U" target="_blank"><span class="str">“Keep Talking (Manual)”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_D90UVHD8m43o" target="_blank"><span class="str">“Keep Talking (Bomb)”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_Erz5j8gid1H2" target="_blank"><span class="str">“The Exit 8”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_88WhkqbgFcKa" target="_blank"><span class="str">“Neural Network”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_8L9CahfdjcLp" target="_blank"><span class="str">“Mandelbrot Set”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_Cec2Xb8xu9bj" target="_blank"><span class="str">“Julia Set”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_WVveyhRE3UyH" target="_blank"><span class="str">“The Picnic Basket”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_KD1c5eaAUfd9" target="_blank"><span class="str">“Beam Struggle”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://makecode.com/_KFjDxoLyK8ou" target="_blank"><span class="str">“The Gauntlet of Self”</span></a> },<br>
+  { <span class="prop">name</span>: <a href="https://arcade.makecode.com/88458-13440-60766-91898" target="_blank"><span class="str">“Sunset Shootout”</span></a> }<br>
+]
+
+</div>
+</div>
+
+
+    <div class="cb" id="cb1">
+      <div class="cb-bar" style="background:rgba(130,170,255,0.08);">
+        <div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div>
+        <div class="cb-file">dark-vs-light.ts</div>
+      </div>
+      <div class="cb-code">
+
+
+<span class="cmt">// The DvL Saga — 7 entries + bonus</span><br>
+<span class="kw">class</span> <span class="fn">DarkVsLightSeries</span> {<br>
+  <span class="prop">episodes</span> <span class="op">=</span> [<br>
+    <a href="https://makecode.com/_2TXWUmgr5Lss" target="_blank"><span class="str">“Dark vs. Light 1”</span></a>,<br>
+    <a href="https://makecode.com/_eCxdcHWeAW5D" target="_blank"><span class="str">“DvL 0.5: Story of Cyrus”</span></a>,<br>
+    <a href="https://makecode.com/_ecP7H1HoTHxm" target="_blank"><span class="str">“Dark vs. Light 2”</span></a>,<br>
+    <a href="https://makecode.com/_i4fD1M5c7eW5" target="_blank"><span class="str">“Dark vs. Light 3”</span></a>,<br>
+    <a href="https://makecode.com/_Ui6Ww95eaLD5" target="_blank"><span class="str">“Dark vs. Light 4”</span></a>,<br>
+    <a href="https://makecode.com/_hUFD0mFWjLqp" target="_blank"><span class="str">“Dark vs. Light 5”</span></a>,<br>
+    <a href="https://makecode.com/_D1Rg4PEKW3Kw" target="_blank"><span class="str">“Dark vs. Light 6”</span></a>,<br>
+    <a href="https://makecode.com/_fex33UXUbiXE" target="_blank"><span class="str">“Dark vs. Light 7”</span></a>,<br>
+    <a href="https://makecode.com/_Mwf8KPEXHRae" target="_blank"><span class="str">“DvL7 BOSS ONLY”</span></a>,<br>
+    <a href="https://makecode.com/_Mg587RCrcY9L" target="_blank"><span class="str">“DvL7 BOSS HARDCORE”</span></a><br>
+  ]<br>
+}
+
+</div>
+</div>
+
+    <div class="cb" id="cb2">
+      <div class="cb-bar" style="background:rgba(195,232,141,0.08);">
+        <div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div>
+        <div class="cb-file">crack-the-code.py</div>
+      </div>
+      <div class="cb-code">
+
+
+<span class="cmt"># Crack the Code — 7 puzzles</span><br>
+<span class="kw">def</span> <span class="fn">series</span>():<br>
+  <span class="kw">return</span> {<br>
+    <span class="num">1</span>: <a href="https://makecode.com/_525fmoeq9K68" target="_blank"><span class="str">“Crack The Code 1”</span></a>,<br>
+    <span class="num">2</span>: <a href="https://makecode.com/_EiqdLJgsi2vw" target="_blank"><span class="str">“Crack The Code 2”</span></a>,<br>
+    <span class="num">3</span>: <a href="https://makecode.com/_3U19dXgh2M9c" target="_blank"><span class="str">“Crack The Code 3”</span></a>,<br>
+    <span class="num">4</span>: <a href="https://makecode.com/_cLLCe9Ft2iHM" target="_blank"><span class="str">“Crack The Code 4”</span></a>,<br>
+    <span class="num">5</span>: <a href="https://makecode.com/_cUP8193s27TC" target="_blank"><span class="str">“Crack The Code 5”</span></a>,<br>
+    <span class="num">6</span>: <a href="https://makecode.com/_PUE9tL7AhDkp" target="_blank"><span class="str">“Crack The Code 6”</span></a>,<br>
+    <span class="num">7</span>: <a href="https://makecode.com/_7drE7E2fr0VR" target="_blank"><span class="str">“Crack The Code 7”</span></a><br>
+  }
+
+
+</div>
+</div>
+    <div class="cb" id="cb3" style="grid-column:1/-1;">
+      <div class="cb-bar" style="background:rgba(247,140,108,0.08);">
+        <div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div>
+        <div class="cb-file">makecode-forums-saga.js</div>
+      </div>
+      <div class="cb-code" style="column-count:2;column-gap:2.5rem;">
+
+
+<span class="cmt">// The MakeCode Forums Game Series</span><br>
+<span class="kw">const</span> <span class="prop">saga</span> <span class="op">=</span> {<br>
+  <span class="prop">tmf1</span>: <a href="https://makecode.com/_1cU5aM7Pr7sc" target="_blank"><span class="str">“The MakeCode Forums”</span></a>,<br>
+  <span class="prop">tmf2</span>: <a href="https://makecode.com/_4zTimRTqa4wv" target="_blank"><span class="str">“A Coder King Mystery”</span></a>,<br>
+  <span class="prop">tmf0.5</span>: <a href="https://makecode.com/_Tk53W3Ri2a6K" target="_blank"><span class="str">“Wrath of Vortex”</span></a>,<br>
+  <span class="prop">tmf3</span>: {<br>
+    <span class="prop">arc</span>: <span class="str">“The Multiversal Convergence”</span>,<br>
+    <span class="prop">parts</span>: [<br>
+      <a href="https://makecode.com/_bgb1uwA1DD3E" target="_blank"><span class="str">“Title Screen”</span></a>,<br>
+      <a href="https://makecode.com/_4TuiK8LqRU83" target="_blank"><span class="str">“TMF 3”</span></a>,<br>
+      <a href="https://makecode.com/_5tWDkVMwCTUC" target="_blank"><span class="str">“Hiker of Mt. Terra”</span></a>,<br>
+      <a href="https://makecode.com/_gDuh2v14s1Km" target="_blank"><span class="str">”??? 1”</span></a>,<br>
+      <a href="https://makecode.com/_dzDCVgdJ880g" target="_blank"><span class="str">“Technopolis”</span></a>,<br>
+      <a href="https://makecode.com/_aKLD06appeYe" target="_blank"><span class="str">”??? 2”</span></a>,<br>
+      <a href="https://makecode.com/_fd70fx6jkDiu" target="_blank"><span class="str">“The Natural Ruins”</span></a>,<br>
+      <a href="https://makecode.com/_PJLPKgXku5gk" target="_blank"><span class="str">”??? 3”</span></a>,<br>
+      <a href="https://makecode.com/_PVkdjh0aH0uk" target="_blank"><span class="str">“Puzzlemania”</span></a>,<br>
+      <a href="https://makecode.com/_Dh6bVYgEgKLt" target="_blank"><span class="str">“RETURN 1”</span></a>,<br>
+      <a href="https://makecode.com/_WVa0PHJP6AfP" target="_blank"><span class="str">“Field of Memories”</span></a>,<br>
+      <a href="https://makecode.com/_E1bCXF8K2Tfd" target="_blank"><span class="str">“RETURN 2”</span></a>,<br>
+      <a href="https://makecode.com/_2bCh9v63Pfhu" target="_blank"><span class="str">“Vortex Final Boss”</span></a>,<br>
+      <a href="https://makecode.com/_061awm21fTz0" target="_blank"><span class="str">“RETURN 3”</span></a><br>
+    ]<br>
+  }<br>
+}
+
+</div>
+</div>
+</div>
+  </div>
+
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,20 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="#ede0c0"/>
+  </svg>
+</div>
+</section>
+  <!-- PUBLICATIONS -->
+
+  <section id="publications">
+    <div id="pub-inner">
+      <div class="sec-label">03 / publications</div>
+      <h2>My Publications</h2>
+      <p class="pub-intro">Oh yeah, I write stuff too. That goes here.</p>
+
+
+  <div class="pub-card" id="pc0">
+    <div class="pub-type">Drabble · Rat Bag Literary</div>
+    <div class="pub-title">How To Murder Your Draft In Seven Basic Steps</div>
+    <a href="https://ratbaglit.substack.com/p/how-to-murder-your-draft-in-seven" target="_blank" class="pub-link">Read on Rat Bag →</a>
+  </div>
+
+  <div class="pub-card pub-coming" id="pc1">
+    <div class="pub-type">Poetry Collection · Coming Soon</div>
+    <div class="pub-title" style="font-style:italic;">Something Left To Feel</div>
+    <span style="font-family:'Spectral',serif;color:rgba(44,24,16,0.45);font-size:0.85rem;font-style:italic;">poems incoming...</span>
+  </div>
+</div>
+<div class="wave-divider">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="#07070f"/>
+  </svg>
+</div>
+
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section id="contact">
+    <div id="contact-inner">
+      <div class="sec-label">04 / contact</div>
+      <h2>Send Me a Recommendation</h2>
+      <p class="c-sub">want me to make somethin'?</p>
+      <div class="field"><label>YOUR NAME</label><input type="text" placeholder="Jack Skellington" /></div>
+      <div class="field"><label>YOUR EMAIL</label><input type="email" placeholder="jackskelly@tnbc.com" /></div>
+      <div class="field"><label>YOUR RECOMMENDATION</label><textarea placeholder="make more halloween games"></textarea></div>
+      <button class="send-btn">SEND IT →</button>
+    </div>
+  </section>
+
+  <footer>ChimbroDaPro &nbsp;·&nbsp; built with code &amp; and love i think</footer>
+
+  <script>
+  document.body.style.overflow = 'hidden';
+  
+    // ═══ MATRIX RAIN ═══
+    const mCvs = document.getElementById('matrix-canvas');
+    const mCtx = mCvs.getContext('2d');
+    mCvs.width = window.innerWidth; mCvs.height = window.innerHeight;
+    const CHARS = '0123456789ABCDEFabcdef';
+    const cols = Math.floor(mCvs.width / 15);
+    const drops = Array(cols).fill(1);
+    let mRunning = true;
+
+    function drawMatrix() {
+      if (!mRunning) return;
+      mCtx.fillStyle = 'rgba(0,0,0,0.05)';
+      mCtx.fillRect(0,0,mCvs.width,mCvs.height);
+      mCtx.font = '13px JetBrains Mono,monospace';
+      for (let i=0;i<drops.length;i++) {
+        const c = CHARS[Math.floor(Math.random()*CHARS.length)];
+        mCtx.fillStyle = Math.random()>0.93 ? '#fff' : '#00ff88';
+        mCtx.globalAlpha = Math.random()*0.7+0.3;
+        mCtx.fillText(c, i*15, drops[i]*15);
+        if (drops[i]*15 > mCvs.height && Math.random()>0.975) drops[i]=0;
+        drops[i]++;
+      }
+      mCtx.globalAlpha = 1;
+    }
+    const mInt = setInterval(drawMatrix, 38);
+
+    // ═══ BOOT SEQUENCE ═══
+    const bootScript = [
+      { html:'<span class="dim">ChimbrOS v3.7.1 — Personal Terminal</span>', t:150 },
+      { html:'<span class="dim">Initialising subsystems...</span>', t:250 },
+      { html:'<span class="ok">✓ Imagination core: ONLINE</span>', t:650 },
+      { html:'<span class="ok">✓ Me, Myself and I: ACTIVE</span>', t:700 },
+      { html:'<span class="ok">✓ Brain Knowledge Stuff: LOADED</span>', t:800 },
+      { html:'<span class="warn">⚠ Sleep schedule: UNDEFINED</span>', t:1000 },
+      { html:'<span class="ok">✓ Creativity: OVERCLOCKED</span>', t:1350 },
+      { html:'<span class="dim">Mounting /home/chimoboss...</span>', t:1500 },
+      { html:'<span class="ok">✓ Portfolio: FOUND (like 2 billion commits)</span>', t:1800 },
+      { html:'&nbsp;', t:2000 },
+      { html:'<span class="bright">Welcome!</span>', t:2200 },
+      { html:'<span class="dim">Loading home page...</span>', t:2250 },
+      { html:'<span class="ok">■■■■■■■■■■ 100%</span>', t:2500 },
+      { html:'&nbsp;', t:2550 },
+      { html:'<span class="grant">// &nbsp;ACCESS GRANTED &nbsp;//</span>', t:2700 },
+    ];
+
+    const tBoot = document.getElementById('terminal-boot');
+    const bLines = document.getElementById('boot-lines');
+
+    setTimeout(() => {
+      tBoot.style.opacity = '1';
+      bootScript.forEach(({html,t}) => {
+        setTimeout(() => {
+          const d = document.createElement('div');
+          d.className='boot-line'; d.innerHTML=html;
+          bLines.appendChild(d);
+          requestAnimationFrame(()=>d.classList.add('show'));
+        }, t);
+      });
+      setTimeout(() => {
+        clearInterval(mInt);
+        const intro = document.getElementById('intro');
+        intro.classList.add('bye');
+        setTimeout(() => {
+          intro.remove();
+          document.body.style.overflow = '';
+          document.getElementById('main-nav').classList.add('show');
+          document.getElementById('sidenav').classList.add('show');
+          startHeroCanvas();
+        }, 700);
+      }, 3000);
+    }, 700);
+
+    // ═══ HERO PARTICLES ═══
+    function startHeroCanvas() {
+      const hCvs = document.getElementById('hero-canvas');
+      const hCtx = hCvs.getContext('2d');
+      hCvs.width=window.innerWidth; hCvs.height=window.innerHeight;
+      const snippets=['01','{}','[]','=>','//','fn','if','&&','++','**','<<','>>'];
+      const pts = Array.from({length:55},()=>({
+        x:Math.random()*hCvs.width, y:Math.random()*hCvs.height,
+        vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25,
+        char:snippets[Math.floor(Math.random()*snippets.length)],
+        op:Math.random()*0.22+0.04
+      }));
+      function tick() {
+        hCtx.clearRect(0,0,hCvs.width,hCvs.height);
+        hCtx.font='11px JetBrains Mono,monospace';
+        pts.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0)p.x=hCvs.width; if(p.x>hCvs.width)p.x=0;
+          if(p.y<0)p.y=hCvs.height; if(p.y>hCvs.height)p.y=0;
+          hCtx.fillStyle=`rgba(0,255,136,)`;
+          hCtx.fillText(p.char,p.x,p.y);
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+      window.addEventListener('resize',()=>{hCvs.width=innerWidth;hCvs.height=innerHeight;});
+    }
+
+    // ═══ WEBSITE TYPING ═══
+    const websites = [
+      {name:'Pokédex',url:'https://chimkariweobuseh.github.io/pokedex'},
+      {name:'Ant Wars',url:'https://chimkariweobuseh.github.io/ant-wars'},
+      {name:'Self Driving Car',url:'https://chimkariweobuseh.github.io/self-driving-car'},
+      {name:'QR Code Maker',url:'https://chimkariweobuseh.github.io/qr-code-maker'},
+      {name:'Particle Life',url:'https://chimkariweobuseh.github.io/particle-life'},
+      {name:'Iterion: Chess Bot',url:'https://chimkariweobuseh.github.io/chess-bot/'},
+      {name:'Minesweeper',url:'https://chimkariweobuseh.github.io/minesweeper'},
+    ];
+    let wsTyped=false;
+
+    function typeWebsites() {
+      if(wsTyped) return; wsTyped=true;
+      document.getElementById('lw-main').classList.add('show');
+      const body=document.getElementById('lw-body');
+      let i=0;
+      function nextLine() {
+        if(i>=websites.length){
+          const cur=document.createElement('div');
+          cur.style.cssText='margin-top:0.5rem;font-size:0.75rem;color:rgba(57,211,83,0.4)';
+          cur.innerHTML='user@chimoboss:~/projects$ <span class="cur"></span>';
+          body.appendChild(cur); return;
+        }
+        const site=websites[i];
+        const a=document.createElement('a');
+        a.href=site.url; a.target='_blank'; a.className='ws-link';
+        body.appendChild(a);
+        let j=0;
+        const iv=setInterval(()=>{
+          a.textContent=site.name.slice(0,++j);
+          if(j>=site.name.length){clearInterval(iv);a.classList.add('typed');i++;setTimeout(nextLine,20);}
+        },12);
+      }
+      setTimeout(nextLine,200);<link rel="stylesheet" type="text/css" href="">
+    }
+
+    // ═══ OBSERVERS ═══
+    new IntersectionObserver(e=>{if(e[0].isIntersecting)typeWebsites();},{threshold:0.25})
+      .observe(document.getElementById('websites'));
+
+    const cbs=document.querySelectorAll('.cb');
+    const cbObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const idx=Array.from(cbs).indexOf(e.target);
+          e.target.style.transitionDelay=(idx*0.09)+'s';
+          e.target.classList.add('show');
+          cbObs.unobserve(e.target);
+        }
+      });
+    },{threshold:0.1});
+    cbs.forEach(c=>cbObs.observe(c));
+
+    document.querySelectorAll('.pub-card').forEach((card,i)=>{
+      new IntersectionObserver(entries=>{
+        if(entries[0].isIntersecting){
+          card.style.transitionDelay=(i*0.15)+'s'; card.classList.add('show');
+        }
+      },{threshold:0.2}).observe(card);
+    });
+
+    // Side dots + section tracking
+    const secIds=['hero','websites','games','publications','contact'];
+    const dots=document.querySelectorAll('.sn-dot');
+    new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const idx=secIds.indexOf(e.target.id);
+          dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+        }
+      });
+    },{threshold:0.5}).observe.call(
+      new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting){const idx=secIds.indexOf(e.target.id);dots.forEach((d,i)=>d.classList.toggle('on',i===idx));}});
+      },{threshold:0.5}),
+      ...secIds.map(id=>document.getElementById(id)).filter(Boolean)
+    );
+
+    // simpler dot tracking
+    const secEls=secIds.map(id=>document.getElementById(id)).filter(Boolean);
+    const sObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){const idx=secIds.indexOf(e.target.id);dots.forEach((d,i)=>d.classList.toggle('on',i===idx));}
+      });
+    },{threshold:0.5});
+    secEls.forEach(el=>sObs.observe(el));
+
+    dots.forEach((dot,i)=>{
+      dot.addEventListener('click',()=>secEls[i]?.scrollIntoView({behavior:'smooth'}));
+    });
+
+    window.addEventListener('resize',()=>{mCvs.width=innerWidth;mCvs.height=innerHeight;});
+  </script>
+
+</body>
+</html>
