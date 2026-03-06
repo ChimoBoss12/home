@@ -505,7 +505,7 @@ footer { background:#07070f; text-align:center; padding:2rem; font-size:0.6rem; 
           p.x+=p.vx; p.y+=p.vy;
           if(p.x<0)p.x=hCvs.width; if(p.x>hCvs.width)p.x=0;
           if(p.y<0)p.y=hCvs.height; if(p.y>hCvs.height)p.y=0;
-          hCtx.fillStyle=`rgba(0,255,136,)`;
+          hCtx.fillStyle=`rgba(0,255,136,${p.op})`;
           hCtx.fillText(p.char,p.x,p.y);
         });
         requestAnimationFrame(tick);
@@ -548,7 +548,7 @@ footer { background:#07070f; text-align:center; padding:2rem; font-size:0.6rem; 
           if(j>=site.name.length){clearInterval(iv);a.classList.add('typed');i++;setTimeout(nextLine,20);}
         },12);
       }
-      setTimeout(nextLine,200);<link rel="stylesheet" type="text/css" href="">
+      setTimeout(nextLine,200);
     }
 
     // ═══ OBSERVERS ═══
